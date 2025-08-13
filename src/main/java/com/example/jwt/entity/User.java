@@ -34,9 +34,11 @@ public class User {
 
 	private String role; // e.g., "ROLE_ADMIN", "ROLE_USER"
 
-	private Boolean enabled = true;
-
 	private LocalDateTime createdAt = LocalDateTime.now();
+
+	private String verificationCode;
+	private LocalDateTime verificationExpiry;
+	private Boolean enabled = false;
 
 	public Long getId() {
 		return id;
@@ -78,14 +80,6 @@ public class User {
 		this.role = role;
 	}
 
-	public Boolean getEnabled() {
-		return enabled;
-	}
-
-	public void setEnabled(Boolean enabled) {
-		this.enabled = enabled;
-	}
-
 	public LocalDateTime getCreatedAt() {
 		return createdAt;
 	}
@@ -94,4 +88,27 @@ public class User {
 		this.createdAt = createdAt;
 	}
 
+	public String getVerificationCode() {
+		return verificationCode;
+	}
+
+	public void setVerificationCode(String verificationCode) {
+		this.verificationCode = verificationCode;
+	}
+
+	public LocalDateTime getVerificationExpiry() {
+		return verificationExpiry;
+	}
+
+	public void setVerificationExpiry(LocalDateTime verificationExpiry) {
+		this.verificationExpiry = verificationExpiry;
+	}
+
+	public Boolean getEnabled() {
+		return enabled;
+	}
+
+	public void setEnabled(Boolean enabled) {
+		this.enabled = enabled;
+	}
 }

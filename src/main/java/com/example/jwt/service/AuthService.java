@@ -1,5 +1,7 @@
 package com.example.jwt.service;
 
+import java.time.LocalDateTime;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -35,11 +37,17 @@ public class AuthService {
 		user.setEmail(request.getEmail());
 		user.setPassword(passwordEncoder.encode(request.getPassword()));
 		user.setRole("ROLE_" + request.getRole().toUpperCase());
+		user.setEnabled(false); // account disabled until verified
+
+		String code = String.valueOf((int) (Math.random() * 900000) + 100000); // 6-digit code
+		user.setVerificationCode(code);
+		user.setVerificationExpiry(LocalDateTime.now().plusMinutes(10));
 
 		userRepository.save(user);
-		
-		//Email
-		emailService.sendSignupSuccessEmail(user.getEmail(), user.getUsername());
+
+		// Email
+
+		emailService.sendVerificationCode(user.getEmail(), user.getUsername(), code);
 
 		// ✅ Generate token using email
 		return jwtUtil.generateToken(user.getEmail());
