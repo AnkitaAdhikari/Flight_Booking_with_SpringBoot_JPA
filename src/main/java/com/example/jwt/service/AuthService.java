@@ -21,6 +21,9 @@ public class AuthService {
 	private PasswordEncoder passwordEncoder;
 
 	@Autowired
+	private EmailService emailService;
+
+	@Autowired
 	private JwtUtil jwtUtil;
 
 	@Autowired
@@ -34,6 +37,9 @@ public class AuthService {
 		user.setRole("ROLE_" + request.getRole().toUpperCase());
 
 		userRepository.save(user);
+		
+		//Email
+		emailService.sendSignupSuccessEmail(user.getEmail(), user.getUsername());
 
 		// ✅ Generate token using email
 		return jwtUtil.generateToken(user.getEmail());
